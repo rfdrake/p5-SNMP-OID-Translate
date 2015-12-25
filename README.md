@@ -1,4 +1,6 @@
-# SNMP::Translate - an XS module only providing translateObj
+[![Build Status](https://travis-ci.org/rfdrake/p5-SNMP-Translate.svg?branch=master)](https://travis-ci.org/rfdrake/p5-SNMP-Translate)
+
+# SNMP::Translate - nothing but translateObj
 
 This is a stripped copy of the perl SNMP.pm XS module.  It comes from version
 5.0404.  The reason for this is because I'm using Net::SNMP for everything
@@ -99,11 +101,14 @@ At this point I think we should get off the tangent of trying to fix perlbrew
 with file copying and attempt to do things the right way again, by building
 the module.
 
-## trying to build the module with NETSNMP_DONT_CHECK_VERSION
+## trying to build the module with env var
 
 Once i had a chance to download the SNMP.pm module source and build-deps, I
 saw there is a flag to ignore the version difference and run anyway.  This
 would probably work for us since we only want translateObj.
+
+    env:
+      - NETSNMP_DONT_CHECK_VERSION=1
 
 So I did this.  SNMP still bombed.  Attempting to troubleshoot here I found
 that even with "apt-get build-deps SNMP" you don't get enough of net-snmp to
@@ -139,6 +144,36 @@ what is on CPAN.
     cpanm --notest SNMP@$(perl -MSNMP -e 'print $SNMP::VERSION')
     Found SNMP 5.0404 which doesn't satisfy == 5.0703.
 
+## my final travis.yml
+
+    language: perl
+    sudo: true
+
+    env:
+      - NETSNMP_DONT_CHECK_VERSION=1
+    before_install:
+        - "sudo apt-get -yq update"
+        - "sudo apt-get -yq install libsnmp-perl libsnmp-dev"
+        - "cpanm --notest SNMP"
+        - eval $(curl https://travis-perl.github.io/init) --auto
+
+    perl:
+        - "5.20"
+        - "5.18"
+        - "5.16"
+        - "5.14"
+
+    matrix:
+      include:
+        - perl: 5.18
+          env: COVERAGE=1   # enables coverage+coveralls reporting
+      allow_failures:
+        - perl: blead       # ignore failures for blead perl
+        - perl: dev         # ignore failures for dev perl
+
+
+Note that this still doesn't work, but it might be a starting point for
+someone who doesn't want to commit 40 times attempting to make this happen.
 
 # Final notes
 
