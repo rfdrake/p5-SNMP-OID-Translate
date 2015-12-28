@@ -175,6 +175,28 @@ what is on CPAN.
 Note that this still doesn't work, but it might be a starting point for
 someone who doesn't want to commit 40 times attempting to make this happen.
 
+# Special hacks needed for this module
+
+Because we use net-snmp-config to get the compiler flags, we're making
+assumptions that might not be correct for the current build.
+
+When I ran this module under travis I got this error:
+
+    Can't load '/home/travis/build/rfdrake/p5-SNMP-Translate/build_dir/blib/arch/auto/SNMP/Translate/Translate.so' for module SNMP::Translate: /home/travis/build/rfdrake/p5-SNMP-Translate/build_dir/blib/arch/auto/SNMP/Translate/Translate.so: undefined symbol: PL_thr_key at /home/travis/perl5/perlbrew/perls/5.20.3/lib/5.20.3/x86_64-linux/DynaLoader.pm line 193.
+
+The reason is that debian/ubuntu perl was compiled with threading enabled
+while the perlbrew version has been compiled without it.
+
+The real reason is that something is causing us to read symbols from outside
+our path.  Looking at the make output it shows -I/usr/lib/<system perl path>/CORE
+
+so, net-snmp-config is pulling in a system perl include.  Removing that makes
+the module work.  This might be the only hack needed to make SNMP.pm work
+under perlbrew, but I didn't try it once I got to this stage.
+
+    $Params{'CCFLAGS'} =~ s/-I\S+perl\S+\/CORE//;
+
+
 # Final notes
 
 1. The SNMP.pm module should either be removed from CPAN or every available

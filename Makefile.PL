@@ -107,6 +107,10 @@ sub InitMakeParams {
 	}
     }
 
+    # needed to remove system perl that net-snmp-config adds (for perlbrew but
+    # should be safe for non-perlbrew environments)
+    $Params{'CCFLAGS'} =~ s/-I\S+perl\S+\/CORE//;
+
     return(%Params);
 
 }
