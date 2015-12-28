@@ -3,7 +3,7 @@ sudo: true
 
 before_install:
     - "sudo apt-get -yq update"
-    - "sudo apt-get -yq install libsnmp-dev"
+    - "sudo apt-get -yq install libsnmp-dev snmp-mibs-downloader"
     - eval $(curl https://travis-perl.github.io/init) --auto
 
 perl:
