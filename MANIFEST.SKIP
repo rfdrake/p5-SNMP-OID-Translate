@@ -9,3 +9,6 @@
 \.em
 ^include
 ^host$
+blib/
+.git/
+pm_to_blib
