@@ -17,7 +17,9 @@ perl:
 matrix:
   include:
     - perl: 5.18
-      env: COVERAGE=1   # enables coverage+coveralls reporting
+      env:
+        - COVERAGE=1   # enables coverage+coveralls reporting
+        - MIBS=+IF-MIB
   allow_failures:
     - perl: blead       # ignore failures for blead perl
     - perl: dev         # ignore failures for dev perl
