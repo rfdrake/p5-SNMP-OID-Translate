@@ -196,6 +196,9 @@ under perlbrew, but I didn't try it once I got to this stage.
 
     $Params{'CCFLAGS'} =~ s/-I\S+perl\S+\/CORE//;
 
+We also need to say MIBS=+IF-MIB in environment to get it to load a MIB for
+testing.
+
 
 # Final notes
 

@@ -1,6 +1,8 @@
 language: perl
 sudo: true
 
+env:
+    - MIBS=+IF-MIB   # needed if we don't want to globally modify /etc/snmp/snmp.conf
 before_install:
     - "sudo apt-get -yq update"
     - "sudo apt-get -yq install libsnmp-dev snmp-mibs-downloader"

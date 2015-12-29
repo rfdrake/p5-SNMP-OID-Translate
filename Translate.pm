@@ -12,8 +12,11 @@ $VERSION = '5.0404';   # current release version number
 use strict;
 use warnings;
 
+require Exporter;
+our @EXPORT_OK = qw( translateObj translate );
+
 require DynaLoader;
-our @ISA = qw(DynaLoader);
+our @ISA = qw(DynaLoader Exporter);
 bootstrap SNMP::Translate;
 
 use vars qw(
@@ -63,6 +66,11 @@ sub translateObj {
 
    return($res);
 }
+
+sub translate {
+    [ map { translateObj($_) } ref($_[0]) eq 'ARRAY' ?  @{$_[0]} : @_ ];
+}
+
 
 1;
 
