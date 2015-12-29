@@ -1,14 +1,19 @@
 language: perl
-sudo: true
+
+addons:
+  apt:
+    packages:
+    - libsnmp-dev
+    - snmp-mibs-downloader
 
 env:
     - MIBS=+IF-MIB   # needed if we don't want to globally modify /etc/snmp/snmp.conf
 before_install:
-    - "sudo apt-get -yq update"
-    - "sudo apt-get -yq install libsnmp-dev snmp-mibs-downloader"
     - eval $(curl https://travis-perl.github.io/init) --auto
 
 perl:
+    - "5.10"
+    - "5.8"
     - "5.20"
     - "5.18"
     - "5.16"
