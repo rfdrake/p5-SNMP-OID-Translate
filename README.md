@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/rfdrake/p5-SNMP-Translate.svg?branch=master)](https://travis-ci.org/rfdrake/p5-SNMP-Translate)
+[![Coverage Status](https://coveralls.io/repos/rfdrake/p5-SNMP-Translate/badge.svg?branch=master&service=github)](https://coveralls.io/github/rfdrake/p5-SNMP-Translate?branch=master)
 
 # SNMP::Translate - nothing but translateObj
 
