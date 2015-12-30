@@ -1,4 +1,6 @@
-package SNMP::Translate;
+package SNMP::OID::Translate;
+
+
 use strict;
 use warnings;
 
@@ -7,7 +9,7 @@ our @EXPORT_OK = qw( translateObj translate );
 
 require DynaLoader;
 our @ISA = qw(DynaLoader Exporter);
-bootstrap SNMP::Translate;
+bootstrap SNMP::OID::Translate;
 
 use vars qw(
   $auto_init_mib $use_long_names
@@ -37,31 +39,31 @@ $best_guess = 0;  # determine whether or not to enable best-guess regular
 
 Translate object identifier(tag or numeric) into alternate representation
 (i.e., sysDescr => '.1.3.6.1.2.1.1.1' and '.1.3.6.1.2.1.1.1' => sysDescr)
-when $SNMP::Translate::use_long_names or second arg is non-zero the translation will
+when $SNMP::OID::Translate::use_long_names or second arg is non-zero the translation will
 return longer textual identifiers (e.g., system.sysDescr).  An optional
 third argument of non-zero will cause the module name to be prepended
 to the text name (e.g. 'SNMPv2-MIB::sysDescr').  If no Mib is loaded
-when called and $SNMP::Translate::auto_init_mib is enabled then the Mib will be
+when called and $SNMP::OID::Translate::auto_init_mib is enabled then the Mib will be
 loaded. Will return 'undef' upon failure.
 
 =cut
 
 sub translateObj {
-   SNMP::Translate::init_snmp("perl");
+   SNMP::OID::Translate::init_snmp("perl");
    my $obj = shift;
    my $temp = shift;
    my $include_module_name = shift || "0";
-   my $long_names = $temp || $SNMP::Translate::use_long_names;
+   my $long_names = $temp || $SNMP::OID::Translate::use_long_names;
 
    return undef if not defined $obj;
    my $res;
    if ($obj =~ /^\.?(\d+\.)*\d+$/) {
-      $res = SNMP::Translate::_translate_obj($obj,1,$long_names,$SNMP::Translate::auto_init_mib,0,$include_module_name);
-   } elsif ($obj =~ /(\.\d+)*$/ && $SNMP::Translate::best_guess == 0) {
-      $res = SNMP::Translate::_translate_obj($`,0,$long_names,$SNMP::Translate::auto_init_mib,0,$include_module_name);
+      $res = SNMP::OID::Translate::_translate_obj($obj,1,$long_names,$SNMP::OID::Translate::auto_init_mib,0,$include_module_name);
+   } elsif ($obj =~ /(\.\d+)*$/ && $SNMP::OID::Translate::best_guess == 0) {
+      $res = SNMP::OID::Translate::_translate_obj($`,0,$long_names,$SNMP::OID::Translate::auto_init_mib,0,$include_module_name);
       $res .= $& if defined $res and defined $&;
-   } elsif ($SNMP::Translate::best_guess) {
-      $res = SNMP::Translate::_translate_obj($obj,0,$long_names,$SNMP::Translate::auto_init_mib,$SNMP::Translate::best_guess,$include_module_name);
+   } elsif ($SNMP::OID::Translate::best_guess) {
+      $res = SNMP::OID::Translate::_translate_obj($obj,0,$long_names,$SNMP::OID::Translate::auto_init_mib,$SNMP::OID::Translate::best_guess,$include_module_name);
    }
 
    return($res);

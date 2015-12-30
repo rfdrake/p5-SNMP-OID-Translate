@@ -402,7 +402,7 @@ __libraries_init(char *appname)
     }
 
 
-MODULE = SNMP::Translate		PACKAGE = SNMP::Translate		PREFIX = snmp
+MODULE = SNMP::OID::Translate		PACKAGE = SNMP::OID::Translate		PREFIX = snmp
 
 void
 init_snmp(appname)
@@ -417,7 +417,7 @@ snmp_add_mib_dir(mib_dir,force=0)
 	CODE:
         {
 	int result = 0;      /* Avoid use of uninitialized variable below. */
-        int verbose = SvIV(perl_get_sv("SNMP::Translate::verbose", 0x01 | 0x04));
+        int verbose = SvIV(perl_get_sv("SNMP::OID::Translate::verbose", 0x01 | 0x04));
 
         if (mib_dir && *mib_dir) {
 	   result = add_mibdir(mib_dir);
@@ -438,7 +438,7 @@ snmp_read_mib(mib_file, force=0)
 	int		force
 	CODE:
         {
-        int verbose = SvIV(perl_get_sv("SNMP::Translate::verbose", 0x01 | 0x04));
+        int verbose = SvIV(perl_get_sv("SNMP::OID::Translate::verbose", 0x01 | 0x04));
 
         if ((mib_file == NULL) || (*mib_file == '\0')) {
            if (get_tree_head() == NULL) {
@@ -473,7 +473,7 @@ snmp_read_module(module)
 	char *		module
 	CODE:
         {
-        int verbose = SvIV(perl_get_sv("SNMP::Translate::verbose", 0x01 | 0x04));
+        int verbose = SvIV(perl_get_sv("SNMP::OID::Translate::verbose", 0x01 | 0x04));
 
         if (!strcmp(module,"ALL")) {
            read_all_mibs();
@@ -510,7 +510,7 @@ snmp_translate_obj(var,mode,use_long,auto_init,best_guess,include_module_name)
            char * label;
            char * iid;
            int status = FAILURE;
-           int verbose = SvIV(perl_get_sv("SNMP::Translate::verbose", 0x01 | 0x04));
+           int verbose = SvIV(perl_get_sv("SNMP::OID::Translate::verbose", 0x01 | 0x04));
            struct tree *module_tree = NULL;
            char modbuf[256];
            int  old_format;   /* Current NETSNMP_DS_LIB_OID_OUTPUT_FORMAT */

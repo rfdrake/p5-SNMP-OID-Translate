@@ -3,7 +3,7 @@ use strict;
 use warnings;
 
 use Test::More;
-use SNMP::Translate qw (translate translateObj);
+use SNMP::OID::Translate qw (translate translateObj);
 
 my $iftable_tags = [ 'ifDescr','ifSpeed','ifHighSpeed','ifAdminStatus', 'ifAlias' ];
 
