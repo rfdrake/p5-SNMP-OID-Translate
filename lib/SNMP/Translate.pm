@@ -29,6 +29,8 @@ $best_guess = 0;  # determine whether or not to enable best-guess regular
                   # expression object name translation.  1 = Regex (-Ib),
 		  # 2 = random (-IR)
 
+=head1 SUBROUTINES
+
 =head2 translateObj
 
     my $oid = translateObj('ifDescr');
