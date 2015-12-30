@@ -1,14 +1,4 @@
-# SNMP.pm -- Perl 5 interface to the Net-SNMP toolkit
-#
-# written by G. S. Marzot (marz@users.sourceforge.net)
-#
-#     Copyright (c) 1995-2006 G. S. Marzot. All rights reserved.
-#     This program is free software; you can redistribute it and/or
-#     modify it under the same terms as Perl itself.
-
 package SNMP::Translate;
-$VERSION = '5.0404';   # current release version number
-
 use strict;
 use warnings;
 
