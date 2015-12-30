@@ -16,5 +16,6 @@ my $output = [
           ];
 
 is_deeply(translate($iftable_tags), $output, 'Can we translate some things?');
+is_deeply(translate($output), $iftable_tags, 'Can we reverse translate?');
 
 done_testing();
