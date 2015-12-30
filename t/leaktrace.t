@@ -1,7 +1,13 @@
 #!perl -w
 use strict;
+use warnings;
+
+use Test::More;
+plan skip_all => 'running under Devel::Cover' if ($INC{'Devel/Cover.pm'});
 use constant HAS_LEAKTRACE => eval{ require Test::LeakTrace };
-use Test::More HAS_LEAKTRACE ? (tests => 1) : (skip_all => 'require Test::LeakTrace');
+plan skip_all => 'require Test::LeakTrace' if (!HAS_LEAKTRACE);
+plan tests => 1;
+
 use Test::LeakTrace;
 
 use SNMP::OID::Translate;

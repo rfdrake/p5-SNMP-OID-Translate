@@ -403,6 +403,7 @@ __libraries_init(char *appname)
 
 
 MODULE = SNMP::OID::Translate		PACKAGE = SNMP::OID::Translate		PREFIX = snmp
+PROTOTYPES: DISABLE
 
 void
 init_snmp(appname)
