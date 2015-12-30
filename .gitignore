@@ -1,14 +1,4 @@
-/META.yml
-/MYMETA.json
-/MYMETA.yml
-/Makefile
-/inc/
-/blib/
-/pm_to_blib
-/Makefile
-/Makefile.old
-/MANIFEST
-/MANIFEST.bak
+/.build/
 /SNMP-Translate*tar
 /SNMP-Translate*tar.gz
 *swp
@@ -17,8 +7,4 @@
 *.c
 *.bs
 *.bso
-/debian/app-tel.debhelper.log
-/debian/app-tel.substvars
-/debian/app-tel/
-/debian/files
 /cover_db/

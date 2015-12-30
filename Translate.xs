@@ -56,8 +56,6 @@
 #define G_VOID G_DISCARD
 #endif
 
-#include "perlsnmp.h"
-
 #define SUCCESS 1
 #define FAILURE 0
 

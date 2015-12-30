@@ -1,4 +1,5 @@
 language: perl
+sudo: false
 
 addons:
   apt:
@@ -23,8 +24,7 @@ matrix:
   include:
     - perl: 5.18
       env:
-        - COVERAGE=1   # enables coverage+coveralls reporting
-        - MIBS=+IF-MIB
+        - COVERAGE=1 COVERAGE_OPTS='-ignore_re /CORE/\w+\.h$' MIBS=+IF-MIB
   allow_failures:
     - perl: blead       # ignore failures for blead perl
     - perl: dev         # ignore failures for dev perl
