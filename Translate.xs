@@ -66,29 +66,11 @@
 #define STR_BUF_SIZE (MAX_TYPE_NAME_LEN * MAX_OID_LEN)
 #define ENG_ID_BUF_SIZE 32
 
-static int __is_numeric_oid _((char*));
 static int __sprint_num_objid _((char *, oid *, int));
 static int __scan_num_objid _((char *, oid *, size_t *));
-static int __get_label_iid _((char *, char **, char **, int));
+static int __get_label_iid _((char *, char **, char **));
 static struct tree * __tag2oid _((char *, char *, oid  *, size_t *, int *, int));
 static int __concat_oid_str _((oid *, size_t *, char *));
-
-#define USE_NUMERIC_OIDS 0x08
-#define NON_LEAF_NAME 0x04
-#define USE_LONG_NAMES 0x02
-#define FAIL_ON_NULL_IID 0x01
-#define NO_FLAGS 0x00
-
-static int
-__is_numeric_oid (oidstr)
-char* oidstr;
-{
-  if (!oidstr) return 0;
-  for (; *oidstr; oidstr++) {
-     if (isalpha((int)*oidstr)) return 0;
-  }
-  return(1);
-}
 
 static int
 __sprint_num_objid (buf, objid, len)
@@ -137,11 +119,10 @@ size_t *len;
    <labeln> and <iid> in seperate strings (note: will destructively
    alter input string, 'name') */
 static int
-__get_label_iid (name, last_label, iid, flag)
+__get_label_iid (name, last_label, iid)
 char * name;
 char ** last_label;
 char ** iid;
-int flag;
 {
    char *lcp;
    char *icp;
@@ -151,45 +132,6 @@ int flag;
    *last_label = *iid = NULL;
 
    if (len == 0) return(FAILURE);
-
-   /* Handle case where numeric oid's have been requested.  The input 'name'
-   ** in this case should be a numeric OID -- return failure if not.
-   */
-   if ((flag & USE_NUMERIC_OIDS)) {
-      if (!__is_numeric_oid(name))
-       return(FAILURE);
-
-      /* Walk backward through the string, looking for first two '.' chars */
-      lcp = &(name[len]);
-      icp = NULL;
-      while (lcp > name) {
-       if (*lcp == '.') {
-
-          /* If this is the first occurence of '.', note it in icp.
-          ** Otherwise, this must be the second occurrence, so break
-          ** out of the loop.
-          */
-          if (icp == NULL)
-             icp = lcp;
-          else
-             break;
-       }
-       lcp --;
-      }
-
-      /* Make sure we found at least a label and index. */
-      if (!icp)
-         return(FAILURE);
-
-      /* Push forward past leading '.' chars and separate the strings. */
-      lcp ++;
-      *icp ++ = '\0';
-
-      *last_label = (flag & USE_LONG_NAMES) ? name : lcp;
-      *iid        = icp;
-
-      return(SUCCESS);
-   }
 
    lcp = icp = &(name[len]);
 
@@ -206,36 +148,13 @@ int flag;
       lcp--;
    }
 
-   if (!found_label || (!isdigit((int)*(icp+1)) && (flag & FAIL_ON_NULL_IID)))
+   if (!found_label)
       return(FAILURE);
 
-   if (flag & NON_LEAF_NAME) { /* dont know where to start instance id */
-     /* put the whole thing in label */
-     icp = &(name[len]);
-     flag |= USE_LONG_NAMES;
-     /* special hack in case no mib loaded - object identifiers will
-      * start with .iso.<num>.<num>...., in which case it is preferable
-      * to make the label entirely numeric (i.e., convert "iso" => "1")
-      */
-      if (*lcp == '.' && lcp == name) {
-         if (!strncmp(".ccitt.",lcp,7)) {
-            name += 2;
-            *name = '.';
-            *(name+1) = '0';
-         } else if (!strncmp(".iso.",lcp,5)) {
-            name += 2;
-            *name = '.';
-            *(name+1) = '1';
-         } else if (!strncmp(".joint-iso-ccitt.",lcp,17)) {
-            name += 2;
-            *name = '.';
-            *(name+1) = '2';
-         }
-      }
-   } else if (*icp) {
+   if (*icp) {
       *(icp++) = '\0';
    }
-   *last_label = (flag & USE_LONG_NAMES ? name : lcp);
+   *last_label = lcp;
 
    *iid = icp;
 
@@ -542,7 +461,7 @@ snmp_translate_obj(var,mode,use_long,auto_init,best_guess,include_module_name)
 		if (!use_long) {
                   label = NULL; iid = NULL;
 		  if (((status=__get_label_iid(str_buf_temp,
-		       &label, &iid, NO_FLAGS)) == SUCCESS)
+		       &label, &iid)) == SUCCESS)
 		      && label) {
 		     strcpy(str_buf_temp, label);
 		     if (iid && *iid) {
