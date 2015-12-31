@@ -7,8 +7,6 @@ plan skip_all => 'running under Devel::Cover' if ($INC{'Devel/Cover.pm'});
 eval 'use Test::LeakTrace; 1' or plan skip_all => 'require Test::LeakTrace';
 plan tests => 1;
 
-use Test::LeakTrace;
-
 use SNMP::OID::Translate;
 
 leaks_cmp_ok{
