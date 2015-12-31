@@ -1,6 +1,5 @@
 /.build/
-/SNMP-Translate*tar
-/SNMP-Translate*tar.gz
+/SNMP-OID-Translate*
 *swp
 *local*
 *.o
