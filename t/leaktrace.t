@@ -4,7 +4,7 @@ use warnings;
 
 use Test::More;
 plan skip_all => 'running under Devel::Cover' if ($INC{'Devel/Cover.pm'});
-plan skip_all => 'require Test::LeakTrace' if (!eval { require Test::LeakTrace });
+eval 'use Test::LeakTrace; 1' or plan skip_all => 'require Test::LeakTrace';
 plan tests => 1;
 
 use Test::LeakTrace;
