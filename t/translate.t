@@ -16,6 +16,7 @@ my $output = [
           ];
 
 is_deeply(translate($iftable_tags), $output, 'Can we translate some things?');
+is_deeply(translate(@$iftable_tags), $output, 'Does an array work for translate?');
 is_deeply(translate($output), $iftable_tags, 'Can we reverse translate?');
 
 is(translateObj('.1.3.6.1.2.1.2.2.1.2',1),
@@ -23,5 +24,11 @@ is(translateObj('.1.3.6.1.2.1.2.2.1.2',1),
     'Do long_names work?');
 is(translateObj('.1.3.6.1.2.1.2.2.1.2',0,1), 'IF-MIB::ifDescr', 'Does MIBNAME prepend work?');
 is(translateObj(undef), undef, 'return undef if not defined obj');
+
+# these may not be right
+$SNMP::OID::Translate::best_guess=1;
+is(translateObj('if.escr'), '.1.3.6.1.2.1.2.2.1.2', 'Do regex lookups work if best_guess=1');
+$SNMP::OID::Translate::best_guess=2;
+is(translateObj('ifDescr.0'), '.1.3.6.1.2.1.2.2.1.2', 'Do random access lookups work if best_guess=2');
 
 done_testing();
