@@ -60,8 +60,10 @@ sub translateObj {
    if ($obj =~ /^\.?(\d+\.)*\d+$/) {
       $res = SNMP::OID::Translate::_translate_obj($obj,1,$long_names,$SNMP::OID::Translate::auto_init_mib,0,$include_module_name);
    } elsif ($obj =~ /(\.\d+)*$/ && $SNMP::OID::Translate::best_guess == 0) {
-      $res = SNMP::OID::Translate::_translate_obj($`,0,$long_names,$SNMP::OID::Translate::auto_init_mib,0,$include_module_name);
-      $res .= $& if defined $res and defined $&;
+      my $pre = substr($obj, 0, $-[0]);
+      my $match = substr($obj, $-[0], $+[0]-$-[0]);
+      $res = SNMP::OID::Translate::_translate_obj($pre,0,$long_names,$SNMP::OID::Translate::auto_init_mib,0,$include_module_name);
+      $res .= $match if defined $res and defined $match;
    } elsif ($SNMP::OID::Translate::best_guess) {
       $res = SNMP::OID::Translate::_translate_obj($obj,0,$long_names,$SNMP::OID::Translate::auto_init_mib,$SNMP::OID::Translate::best_guess,$include_module_name);
    }
