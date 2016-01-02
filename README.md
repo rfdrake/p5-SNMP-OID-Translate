@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/rfdrake/p5-SNMP-OID-Translate.svg?branch=master)](https://travis-ci.org/rfdrake/p5-SNMP-OID-Translate)
 [![Coverage Status](https://coveralls.io/repos/rfdrake/p5-SNMP-OID-Translate/badge.svg?branch=master&service=github)](https://coveralls.io/github/rfdrake/p5-SNMP-OID-Translate?branch=master)
 
-# SNMP::Translate - nothing but translateObj
+# SNMP::OID::Translate - nothing but translateObj
 
 This is a stripped copy of the perl SNMP.pm XS module.  It comes from version
 5.0404.  The reason for this is because I'm using Net::SNMP for everything
