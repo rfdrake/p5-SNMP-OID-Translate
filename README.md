@@ -13,6 +13,31 @@ travis+perlbrew are happy with.
     use SNMP::Translate;
     my $output = SNMP::Translate::translateObj($input);
 
+# Special hacks needed for this module
+
+## Removed net-snmp-config usage
+
+This will probably break some OS but it cleans the Makefile and makes it work
+better under perlbrew.  I only anticipate this causing an issue on (possibly)
+windows.
+
+## Added MIBS environment variable
+
+We also need to say MIBS=+IF-MIB in environment to get it to load a MIB for
+testing.
+
+# Code changes behind the scenes
+
+## Got rid of $\` and $&
+
+Because these can be slow on older perl it's better to avoid them.
+Especially since it slows down any regex after they are used.
+
+## Changing strcpy and sprintf to strncopy/snprintf
+
+Even though I'm reasonably sure the code is safe after looking at how they're
+used, I would rather not leave them because of the possibility of a refactor
+that overruns a buffer without checking.
 
 # Things I tried before doing this
 
@@ -175,20 +200,6 @@ what is on CPAN.
 
 Note that this still doesn't work, but it might be a starting point for
 someone who doesn't want to commit 40 times attempting to make this happen.
-
-# Special hacks needed for this module
-
-## Removed net-snmp-config usage
-
-This will probably break some OS but it cleans the Makefile and makes it work
-better under perlbrew.  I only anticipate this causing an issue on (possibly)
-windows.
-
-## Added MIBS environment variable
-
-We also need to say MIBS=+IF-MIB in environment to get it to load a MIB for
-testing.
-
 
 # Final notes
 
