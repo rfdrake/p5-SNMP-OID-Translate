@@ -33,12 +33,6 @@ testing.
 Because these can be slow on older perl it's better to avoid them.
 Especially since it slows down any regex after they are used.
 
-## Changing strcpy and sprintf to strncopy/snprintf
-
-Even though I'm reasonably sure the code is safe after looking at how they're
-used, I would rather not leave them because of the possibility of a refactor
-that overruns a buffer without checking.
-
 # Things I tried before doing this
 
 This is an incomplete list of things I've tried.  I'm including them in case
@@ -200,6 +194,14 @@ what is on CPAN.
 
 Note that this still doesn't work, but it might be a starting point for
 someone who doesn't want to commit 40 times attempting to make this happen.
+
+# TODO
+
+## Changing strcpy and sprintf to strncopy/snprintf
+
+Even though I'm reasonably sure the code is safe after looking at how they're
+used, I would rather not leave them because of the possibility of a refactor
+that overruns a buffer without checking.
 
 # Final notes
 
