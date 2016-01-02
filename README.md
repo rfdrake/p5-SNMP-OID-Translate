@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.org/rfdrake/p5-SNMP-Translate.svg?branch=master)](https://travis-ci.org/rfdrake/p5-SNMP-Translate)
-[![Coverage Status](https://coveralls.io/repos/rfdrake/p5-SNMP-Translate/badge.svg?branch=master&service=github)](https://coveralls.io/github/rfdrake/p5-SNMP-Translate?branch=master)
+[![Build Status](https://travis-ci.org/rfdrake/p5-SNMP-OID-Translate.svg?branch=master)](https://travis-ci.org/rfdrake/p5-SNMP-OID-Translate)
+[![Coverage Status](https://coveralls.io/repos/rfdrake/p5-SNMP-OID-Translate/badge.svg?branch=master&service=github)](https://coveralls.io/github/rfdrake/p5-SNMP-OID-Translate?branch=master)
 
 # SNMP::Translate - nothing but translateObj
 
@@ -10,8 +10,8 @@ travis+perlbrew are happy with.
 
 # Synopsis
 
-    use SNMP::Translate;
-    my $output = SNMP::Translate::translateObj($input);
+    use SNMP::OID::Translate;
+    my $output = SNMP::OID::Translate::translateObj($input);
 
 # Special hacks needed for this module
 

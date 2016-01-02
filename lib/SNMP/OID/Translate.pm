@@ -17,6 +17,43 @@ use vars qw(
   $best_guess
 );
 
+=head1 SYNOPSIS
+
+    use SNMP::OID::Translate;
+    my $oid = $SNMP::OID::Translate:::translateObj('ifDescr');
+
+=head1 VARIABLES
+
+=over 4
+
+=item $use_long_names
+
+Returns the complete name rather than the short version.  Most of the time you
+don't need or want this.
+
+=item $best_guess
+
+Setting this to 1 will enable regex lookups for names, so things like
+'if.*Status' work.  With this turned on you can't append the instance or use a
+period in the query because it treats it as regex.
+
+Setting this to 2 turns on "random access".  I'm not sure what that does.  See
+the snmpcmd manpage for -Ib (regex) and -IR (random access)
+
+Defaults to 0.
+
+=item $verbose
+
+Enable verbose messages.  Defaults to false.
+
+=item $auto_init_mib
+
+enable automatic MIB loading at session creation time.  Defaults to true.
+
+=back
+
+=cut
+
 $auto_init_mib = 1; # enable automatic MIB loading at session creation time
 $use_long_names = 0; # non-zero to prefer longer mib textual identifiers rather
                    # than just leaf indentifiers (see translateObj)
