@@ -3,6 +3,7 @@ package SNMP::OID::Translate;
 
 use strict;
 use warnings;
+use v5.08;
 
 require Exporter;
 our @EXPORT_OK = qw( translateObj translate );
