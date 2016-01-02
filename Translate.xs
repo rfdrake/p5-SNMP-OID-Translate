@@ -10,7 +10,6 @@
 #define WIN32SCK_IS_STDSCK
 #include "EXTERN.h"
 #include "perl.h"
-// #include "fake.h"
 #include "XSUB.h"
 
 #include <net-snmp/net-snmp-config.h>
@@ -329,86 +328,6 @@ init_snmp(appname)
         char *appname
     CODE:
         __libraries_init(appname);
-
-int
-snmp_add_mib_dir(mib_dir,force=0)
-	char *		mib_dir
-	int		force
-	CODE:
-        {
-	int result = 0;      /* Avoid use of uninitialized variable below. */
-        int verbose = SvIV(perl_get_sv("SNMP::OID::Translate::verbose", TRUE|GV_ADDWARN));
-
-        if (mib_dir && *mib_dir) {
-	   result = add_mibdir(mib_dir);
-        }
-        if (result) {
-           if (verbose) warn("snmp_add_mib_dir: Added mib dir %s\n", mib_dir);
-        } else {
-           if (verbose) warn("snmp_add_mib_dir: Failed to add %s\n", mib_dir);
-        }
-        RETVAL = (I32)result;
-        }
-        OUTPUT:
-        RETVAL
-
-int
-snmp_read_mib(mib_file, force=0)
-	char *		mib_file
-	int		force
-	CODE:
-        {
-        int verbose = SvIV(perl_get_sv("SNMP::OID::Translate::verbose", TRUE|GV_ADDWARN));
-
-        if ((mib_file == NULL) || (*mib_file == '\0')) {
-           if (get_tree_head() == NULL) {
-              if (verbose) warn("snmp_read_mib: initializing MIB\n");
-              netsnmp_init_mib();
-              if (get_tree_head()) {
-                 if (verbose) warn("done\n");
-              } else {
-                 if (verbose) warn("failed\n");
-              }
-	   }
-        } else {
-           if (verbose) warn("snmp_read_mib: reading MIB: %s\n", mib_file);
-           if (strcmp("ALL",mib_file))
-              read_mib(mib_file);
-           else
-             read_all_mibs();
-           if (get_tree_head()) {
-              if (verbose) warn("done\n");
-           } else {
-              if (verbose) warn("failed\n");
-           }
-        }
-        RETVAL = PTR2IV(get_tree_head());
-        }
-        OUTPUT:
-        RETVAL
-
-
-int
-snmp_read_module(module)
-	char *		module
-	CODE:
-        {
-        int verbose = SvIV(perl_get_sv("SNMP::OID::Translate::verbose", TRUE|GV_ADDWARN));
-
-        if (!strcmp(module,"ALL")) {
-           read_all_mibs();
-        } else {
-           netsnmp_read_module(module);
-        }
-        if (get_tree_head()) {
-           if (verbose) warn("Read %s\n", module);
-        } else {
-           if (verbose) warn("Failed reading %s\n", module);
-        }
-        RETVAL = PTR2IV(get_tree_head());
-        }
-        OUTPUT:
-        RETVAL
 
 #define SNMP_XLATE_MODE_OID2TAG 1
 #define SNMP_XLATE_MODE_TAG2OID 0
