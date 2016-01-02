@@ -26,6 +26,8 @@ is(translateObj('.1.3.6.1.2.1.2.2.1.2',0,1), 'IF-MIB::ifDescr', 'Does MIBNAME pr
 is(translateObj(undef), undef, 'return undef if not defined obj');
 
 # these may not be right
+$SNMP::OID::Translate::best_guess=0;
+is(translateObj('ifDescr.0'), '.1.3.6.1.2.1.2.2.1.2.0', 'Do dotted lookups work if best_guess=0');
 $SNMP::OID::Translate::best_guess=1;
 is(translateObj('if.escr'), '.1.3.6.1.2.1.2.2.1.2', 'Do regex lookups work if best_guess=1');
 $SNMP::OID::Translate::best_guess=2;
