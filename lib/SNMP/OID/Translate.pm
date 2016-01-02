@@ -126,13 +126,13 @@ sub translate {
 
 =head1 AUTHOR
 
-bugs, comments, questions to rdrake@cpan.org
+bugs, comments, questions to C<< <rdrake at cpan.org> >>
 
 =head1 Copyright
 
-Most of the source code is directly copied from the SNMP.pm/xs modules.  I am
+Most of the source code is directly copied from the L<SNMP> modules.  I am
 leaving their copyright notice intact but please direct complaints, feature
-requests or whatever to me.
+requests or whatever to me (RDRAKE)
 
      Copyright (c) 1995-2000 G. S. Marzot. All rights reserved.
      This program is free software; you can redistribute it and/or
