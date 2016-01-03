@@ -7,8 +7,6 @@ addons:
     - libsnmp-dev
     - snmp-mibs-downloader
 
-env:
-    - MIBS=+IF-MIB   # needed if we don't want to globally modify /etc/snmp/snmp.conf
 before_install:
     - eval $(curl https://travis-perl.github.io/init) --auto
 
@@ -24,7 +22,7 @@ matrix:
   include:
     - perl: 5.18
       env:
-        - COVERAGE=1 COVERAGE_OPTS='-ignore_re /CORE/\w+\.h$' MIBS=+IF-MIB
+        - COVERAGE=1 COVERAGE_OPTS='-ignore_re /CORE/\w+\.h$'
   allow_failures:
     - perl: blead       # ignore failures for blead perl
     - perl: dev         # ignore failures for dev perl

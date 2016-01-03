@@ -2,6 +2,9 @@
 use strict;
 use warnings;
 
+# needed to load the mibfile if /etc/snmp/snmp.conf isn't setup correctly
+$ENV{'MIBS'}='+IF-MIB';
+
 use Test::More;
 use SNMP::OID::Translate qw (translate translateObj);
 
