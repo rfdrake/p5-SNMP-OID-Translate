@@ -13,7 +13,7 @@
 #include "XSUB.h"
 
 #include <net-snmp/net-snmp-config.h>
-#include <net-snmp/net-snmp-includes.h>
+#include "net-snmp-includes.h"
 #include <sys/types.h>
 #include <arpa/inet.h>
 #include <errno.h>
